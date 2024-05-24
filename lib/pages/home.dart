@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'rewards_page.dart';
+import 'rewards.dart';
+import 'settings.dart';
+import 'profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,6 +67,20 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => const RewardsPage()),
     );
+  }
+
+  void _onSettingsTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SettingsPage()),
+    );
+  }
+
+  void _onProfileTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfilePage())
+    ); 
   }
 
   @override
@@ -276,8 +292,14 @@ class _HomePageState extends State<HomePage> {
               children: [
                 _buildAnimatedSmallIcon(Icons.home, 3),
                 _buildAnimatedSmallIcon(Icons.currency_exchange, 2),
-                _buildAnimatedSmallIcon(Icons.person, 1),
-                _buildAnimatedSmallIcon(Icons.settings, 0),
+                GestureDetector(
+                  onTap: _onProfileTap,
+                  child: _buildAnimatedSmallIcon(Icons.person, 1),
+                ),
+                GestureDetector(
+                  onTap: _onSettingsTap, 
+                  child: _buildAnimatedSmallIcon(Icons.settings, 0),
+                ),
               ],
             ),
           ),
