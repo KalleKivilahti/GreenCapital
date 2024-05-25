@@ -16,14 +16,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _showIcons = false;
+  int stepsPerPoint = 100;
   int _stepsToday = 0;
+  int _points = 0;
   Stream<StepCount>? _stepCountStream;
-  List<int> _weeklySteps = List.filled(7, 0); // Steps holder 
+  List<int> _weeklySteps = List.filled(7, 0);
 
   @override
   void initState() {
     super.initState();
     _initPedometer();
+    _loadPoints();
     _loadWeeklySteps();
   }
 
@@ -35,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   void _onStepCount(StepCount event) {
     setState(() {
       _stepsToday = event.steps;
+      _updatePoints();
       _updateWeeklySteps();
     });
   }
@@ -43,8 +47,24 @@ class _HomePageState extends State<HomePage> {
     print("Pedometer Error: $error");
   }
 
+  Future<void> _loadPoints() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _points = prefs.getInt('points') ?? 0;
+    });
+  }
+
+  Future<void> _updatePoints() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int newPoints = (_stepsToday / stepsPerPoint).floor();
+    setState(() {
+      _points = newPoints;
+    });
+    await prefs.setInt('points', _points);
+  }
+
   Future<void> _loadWeeklySteps() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance(); // Pulls from android step count the data
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _weeklySteps = List<int>.generate(7, (index) => prefs.getInt('day_$index') ?? 0);
     });
@@ -88,19 +108,15 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ProfilePage()),
-    ); 
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return appBar();
-  }
-
-  Scaffold appBar() {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Green Capital',
+          'Green Fit',
           style: TextStyle(
             color: Color.fromARGB(255, 141, 237, 164),
             fontSize: 36,
@@ -153,10 +169,12 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 100, 
+                  height: 100,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 30, 30, 30),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color.fromARGB(255, 31, 30, 35)
+                        : const Color.fromARGB(255, 222, 230, 239),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
@@ -183,7 +201,9 @@ class _HomePageState extends State<HomePage> {
                   height: 500,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 30, 30, 30),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color.fromARGB(255, 31, 30, 35)
+                        : const Color.fromARGB(255, 222, 230, 239),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
@@ -272,7 +292,8 @@ class _HomePageState extends State<HomePage> {
                       GestureDetector(
                         onTap: _onRewardsDealTap,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 30),
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 141, 237, 164),
                             borderRadius: BorderRadius.circular(10),
@@ -301,13 +322,13 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                   onTap: _onPointsTap,
                   child: _buildAnimatedSmallIcon(Icons.currency_exchange, 3),
-                ),        
+                ),
                 GestureDetector(
                   onTap: _onProfileTap,
                   child: _buildAnimatedSmallIcon(Icons.person, 1),
                 ),
                 GestureDetector(
-                  onTap: _onSettingsTap, 
+                  onTap: _onSettingsTap,
                   child: _buildAnimatedSmallIcon(Icons.settings, 0),
                 ),
               ],
@@ -351,3 +372,4 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+
