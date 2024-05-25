@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'rewards.dart';
 import 'settings.dart';
 import 'profile.dart';
+import 'points.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,6 +67,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const RewardsPage()),
+    );
+  }
+
+    void _onPointsTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PointsPage()),
     );
   }
 
@@ -286,12 +294,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            bottom: 600,
+            bottom: 650,
             right: 11,
             child: Column(
               children: [
-                _buildAnimatedSmallIcon(Icons.home, 3),
-                _buildAnimatedSmallIcon(Icons.currency_exchange, 2),
+                GestureDetector(
+                  onTap: _onPointsTap,
+                  child: _buildAnimatedSmallIcon(Icons.currency_exchange, 3),
+                ),        
                 GestureDetector(
                   onTap: _onProfileTap,
                   child: _buildAnimatedSmallIcon(Icons.person, 1),
