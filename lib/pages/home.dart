@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-    void _onPointsTap() {
+  void _onPointsTap() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const PointsPage()),
@@ -80,14 +80,14 @@ class _HomePageState extends State<HomePage> {
   void _onSettingsTap() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SettingsPage()),
+      MaterialPageRoute(builder: (context) => SettingsPage()),
     );
   }
 
   void _onProfileTap() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ProfilePage())
+      MaterialPageRoute(builder: (context) => const ProfilePage()),
     ); 
   }
 
