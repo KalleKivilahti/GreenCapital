@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "174525905693",
+    "project_id": "green-fit-42406",
+    "storage_bucket": "green-fit-42406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174525905693:android:3176b46cad9c909258bff4",
+        "android_client_info": {
+          "package_name": "com.greenfit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq7IAjP6i4P-_eR72p3q6bFbzQ3_4hPxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

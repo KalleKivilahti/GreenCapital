@@ -112,14 +112,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Green Fit',
           style: TextStyle(
             color: Color.fromARGB(255, 141, 237, 164),
-            fontSize: 36,
+            fontSize: 52,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -131,10 +134,11 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               margin: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              width: 37,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 141, 237, 164),
-                borderRadius: BorderRadius.circular(50),
+              width: 50, 
+              height: 100,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 141, 237, 164),
+                shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.dashboard_customize_outlined,
@@ -155,21 +159,21 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color.fromARGB(255, 141, 237, 164),
-                fontSize: 18,
+                fontSize: 36,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           Positioned(
-            top: 70.0,
+            top: screenHeight * 0.05,
             left: 0,
             right: 0,
             child: Column(
               children: [
                 Container(
                   padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 100,
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                  height: screenHeight * 0.1,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
@@ -188,17 +192,17 @@ class _HomePageState extends State<HomePage> {
                       '$_stepsToday steps',
                       style: const TextStyle(
                         color: Color.fromARGB(255, 141, 237, 164),
-                        fontSize: 24,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.02),
                 Container(
                   padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 500,
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                  height: screenHeight * 0.7,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
@@ -222,10 +226,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight * 0.02),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
                           child: BarChart(
                             BarChartData(
                               alignment: BarChartAlignment.spaceAround,
@@ -288,12 +292,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight * 0.02),
                       GestureDetector(
                         onTap: _onRewardsDealTap,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * 0.02,
+                            horizontal: screenWidth * 0.1,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 141, 237, 164),
                             borderRadius: BorderRadius.circular(10),
@@ -315,8 +321,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            bottom: 650,
-            right: 11,
+            bottom: screenHeight * 0.85,
+            right: screenWidth * 0.01,
             child: Column(
               children: [
                 GestureDetector(
@@ -345,8 +351,8 @@ class _HomePageState extends State<HomePage> {
       duration: Duration(milliseconds: 100 + (index * 100)),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
-        width: 35,
-        height: 35,
+        width: 55,
+        height: 55,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 141, 237, 164),
@@ -372,4 +378,5 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+
 

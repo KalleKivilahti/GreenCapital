@@ -9,7 +9,7 @@ class RewardsPage extends StatefulWidget {
 }
 
 class _RewardsPageState extends State<RewardsPage> {
-  late int _totalPoints = 0; // Initialize _totalPoints with a default value
+  late int _totalPoints = 0;
 
   @override
   void initState() {
@@ -20,7 +20,7 @@ class _RewardsPageState extends State<RewardsPage> {
   Future<void> _loadTotalPoints() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _totalPoints = prefs.getInt('totalPoints') ?? 100; // Default value: 100
+      _totalPoints = prefs.getInt('totalPoints') ?? 100;
     });
   }
 
@@ -38,7 +38,7 @@ class _RewardsPageState extends State<RewardsPage> {
 
   void _debugIncreasePoints() {
     setState(() {
-      _totalPoints += 100; // Increase points by 100 for debugging
+      _totalPoints += 100;
     });
     _saveTotalPoints(_totalPoints);
   }

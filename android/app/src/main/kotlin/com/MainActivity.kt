@@ -1,4 +1,4 @@
-package com.example.stepv2
+package com.greenfit
 
 import io.flutter.embedding.android.FlutterActivity
 

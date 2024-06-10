@@ -58,14 +58,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text('Send Feedback'),
                 trailing: const Icon(Icons.feedback),
                 onTap: () {
-                  // Navigate to feedback page or open mail client
                 },
               ),
               ListTile(
                 title: const Text('About'),
                 trailing: const Icon(Icons.info),
                 onTap: () {
-                  // Show about dialog or navigate to about page
                 },
               ),
             ],

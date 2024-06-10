@@ -70,7 +70,6 @@ class ProfilePage extends StatelessWidget {
   Widget _buildLinkItem(BuildContext context, {required String title, required String url}) {
     return GestureDetector(
       onTap: () {
-        // Open the URL
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
