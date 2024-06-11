@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
           'Green Fit',
           style: TextStyle(
             color: Color.fromARGB(255, 141, 237, 164),
-            fontSize: 52,
+            fontSize: 42,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           const Positioned(
-            top: 30.0,
+            top: 10.0,
             left: 0,
             right: 0,
             child: Text(
@@ -159,13 +159,13 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color.fromARGB(255, 141, 237, 164),
-                fontSize: 36,
+                fontSize: 32,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           Positioned(
-            top: screenHeight * 0.05,
+            top: screenHeight * 0.07,
             left: 0,
             right: 0,
             child: Column(
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
-                  height: screenHeight * 0.7,
+                  height: screenHeight * 0.65,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
@@ -321,8 +321,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            bottom: screenHeight * 0.85,
-            right: screenWidth * 0.01,
+            bottom: screenHeight * 0.73,
+            right: screenWidth * 0.035,
             child: Column(
               children: [
                 GestureDetector(
@@ -351,8 +351,8 @@ class _HomePageState extends State<HomePage> {
       duration: Duration(milliseconds: 100 + (index * 100)),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
-        width: 55,
-        height: 55,
+        width: 40,
+        height: 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 141, 237, 164),

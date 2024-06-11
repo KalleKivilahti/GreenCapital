@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:stepv2/pages/home.dart';
 import 'package:provider/provider.dart';
 import 'settings_model.dart';
 import 'google_fit_service.dart';
+import 'pages/home.dart'; 
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,14 +31,14 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsModel>(
       builder: (context, settings, child) {
         return MaterialApp(
-          title: 'Flutter Firebase Auth Demo',
+          title: 'Green Fit Login',
           debugShowCheckedModeBanner: false,
           theme: settings.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           home: const MyHomePage(),
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -62,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _checkCurrentUser();
-    _fetchAndLogSteps();
   }
 
   Future<void> _checkCurrentUser() async {
@@ -74,20 +74,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _signInWithGoogle() async {
     try {
-      final GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      final UserCredential userCredential =
-          await _auth.signInWithPopup(googleProvider);
-
-      setState(() {
-        _user = userCredential.user;
-      });
-
-      if (_user != null) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
         );
+        final UserCredential userCredential = await _auth.signInWithCredential(credential);
+        setState(() {
+          _user = userCredential.user;
+        });
+        if (_user != null) {
+          // Check and prompt for consent before navigating to HomePage
+          await _checkAndPromptConsent(googleSignIn);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(), // Navigate to HomePage
+            ),
+          );
+        }
       }
     } catch (e) {
       print('Error signing in with Google: $e');
@@ -105,23 +112,51 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _fetchAndLogSteps() async {
-    GoogleFitService googleFitService = Provider.of<GoogleFitService>(context, listen: false);
-    int steps = await googleFitService.getSteps();
-    print('Steps today: $steps');
+  Future<void> _signInLater() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
+
+  Future<void> _checkAndPromptConsent(GoogleSignIn googleSignIn) async {
+    final bool hasPermissions = await googleSignIn.requestScopes(['https://www.googleapis.com/auth/fitness.activity.read']);
+    if (hasPermissions) {
+      print('User has granted consent for Google Fit data access.');
+      // Proceed with fetching fitness data
+      // For simplicity, we'll just print a message here
+      print('Fetching fitness data...');
+    } else {
+      print('User has not granted consent for Google Fit data access.');
+      // Prompt the user to grant consent
+      // You can use packages like url_launcher to open the consent page in a browser
+      // For simplicity, we'll just print a message here
+      print('Prompting user to grant consent...');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Firebase Auth Demo'),
+        title: const Text('Green Fit Login'),
       ),
       body: Center(
         child: _user == null
-            ? ElevatedButton(
-                onPressed: _signInWithGoogle,
-                child: const Text('Sign In with Google'),
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: _signInWithGoogle,
+                    child: const Text('Sign In with Google'),
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _signInLater,
+                    child: const Text('Sign In Later'),
+                  ),
+                ],
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -139,5 +174,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
