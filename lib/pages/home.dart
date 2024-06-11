@@ -66,7 +66,8 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadWeeklySteps() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _weeklySteps = List<int>.generate(7, (index) => prefs.getInt('day_$index') ?? 0);
+      _weeklySteps =
+          List<int>.generate(7, (index) => prefs.getInt('day_$index') ?? 0);
     });
   }
 
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
   void _onSettingsTap() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SettingsPage()),
+      MaterialPageRoute(builder: (context) => const SettingsPage()),
     );
   }
 
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -128,13 +129,21 @@ class _HomePageState extends State<HomePage> {
         ),
         elevation: 0.0,
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_circle_left_outlined),
+          color: Color.fromARGB(255, 141, 237, 164),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/home');
+          },
+          iconSize: 40,
+        ),
         actions: [
           GestureDetector(
             onTap: _toggleIcons,
             child: Container(
               margin: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              width: 50, 
+              width: 50,
               height: 100,
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 141, 237, 164),
@@ -229,7 +238,8 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: screenHeight * 0.02),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.01),
                           child: BarChart(
                             BarChartData(
                               alignment: BarChartAlignment.spaceAround,
@@ -250,25 +260,32 @@ class _HomePageState extends State<HomePage> {
                                       Widget text;
                                       switch (value.toInt()) {
                                         case 0:
-                                          text = const Text('Mon', style: style);
+                                          text =
+                                              const Text('Mon', style: style);
                                           break;
                                         case 1:
-                                          text = const Text('Tue', style: style);
+                                          text =
+                                              const Text('Tue', style: style);
                                           break;
                                         case 2:
-                                          text = const Text('Wed', style: style);
+                                          text =
+                                              const Text('Wed', style: style);
                                           break;
                                         case 3:
-                                          text = const Text('Thu', style: style);
+                                          text =
+                                              const Text('Thu', style: style);
                                           break;
                                         case 4:
-                                          text = const Text('Fri', style: style);
+                                          text =
+                                              const Text('Fri', style: style);
                                           break;
                                         case 5:
-                                          text = const Text('Sat', style: style);
+                                          text =
+                                              const Text('Sat', style: style);
                                           break;
                                         case 6:
-                                          text = const Text('Sun', style: style);
+                                          text =
+                                              const Text('Sun', style: style);
                                           break;
                                         default:
                                           text = const Text('', style: style);
@@ -300,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                             vertical: screenHeight * 0.02,
                             horizontal: screenWidth * 0.1,
                           ),
-                          decoration: BoxDecoration(
+                                                    decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 141, 237, 164),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -378,5 +395,4 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
-
 

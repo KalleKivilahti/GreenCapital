@@ -42,6 +42,10 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: settings.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           home: const MyHomePage(),
+          routes: {
+            '/home': (context) => const MyHomePage(),
+            '/homePage': (context) => const HomePage(),
+          },
         );
       },
     );
@@ -87,13 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _user = userCredential.user;
         });
         if (_user != null) {
-          // Check and prompt for consent before navigating to HomePage
           await _checkAndPromptConsent(googleSignIn);
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const HomePage(), // Navigate to HomePage
-            ),
-          );
+          Navigator.of(context).pushReplacementNamed('/homePage');
         }
       }
     } catch (e) {
@@ -113,11 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _signInLater() async {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/homePage');
   }
 
   Future<void> _checkAndPromptConsent(GoogleSignIn googleSignIn) async {
