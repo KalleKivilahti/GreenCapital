@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:stepv2/settings_model.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }

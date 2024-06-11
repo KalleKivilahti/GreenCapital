@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RewardsPage extends StatefulWidget {
-  const RewardsPage({Key? key}) : super(key: key);
+  const RewardsPage({super.key});
 
   @override
   _RewardsPageState createState() => _RewardsPageState();
@@ -65,7 +65,7 @@ class _RewardsPageState extends State<RewardsPage> {
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? const Color.fromARGB(255, 31, 30, 35)
-              : Color.fromARGB(255, 141, 237, 164),
+              : const Color.fromARGB(255, 141, 237, 164),
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
@@ -141,7 +141,7 @@ class _RewardsPageState extends State<RewardsPage> {
               ),
               IconButton(
                 onPressed: _debugIncreasePoints,
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
                     : Colors.black,
