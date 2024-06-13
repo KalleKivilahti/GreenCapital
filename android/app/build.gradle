@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
 }
 
 def keystoreProperties = new Properties()
@@ -13,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    namespace = "com.greenfit"
+    namespace = "com.greenfit06"
     compileSdk = flutter.compileSdkVersion
 
     compileOptions {
@@ -26,7 +27,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.greenfit"
+        applicationId "com.greenfit06"
         minSdkVersion 23 
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -50,7 +51,6 @@ android {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.1.0')
-    implementation 'com.google.firebase:firebase-analytics'
 }
 
 flutter {
