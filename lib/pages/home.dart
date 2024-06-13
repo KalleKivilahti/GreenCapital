@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'rewards.dart';
 import 'settings.dart';
@@ -16,35 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _showIcons = false;
-  int stepsPerPoint = 100;
-  int _stepsToday = 0;
   int _points = 0;
-  Stream<StepCount>? _stepCountStream;
   List<int> _weeklySteps = List.filled(7, 0);
 
   @override
   void initState() {
     super.initState();
-    _initPedometer();
     _loadPoints();
     _loadWeeklySteps();
-  }
-
-  void _initPedometer() {
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream?.listen(_onStepCount).onError(_onStepCountError);
-  }
-
-  void _onStepCount(StepCount event) {
-    setState(() {
-      _stepsToday = event.steps;
-      _updatePoints();
-      _updateWeeklySteps();
-    });
-  }
-
-  void _onStepCountError(error) {
-    print("Pedometer Error: $error");
   }
 
   Future<void> _loadPoints() async {
@@ -54,28 +32,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _updatePoints() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int newPoints = (_stepsToday / stepsPerPoint).floor();
-    setState(() {
-      _points = newPoints;
-    });
-    await prefs.setInt('points', _points);
-  }
-
   Future<void> _loadWeeklySteps() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _weeklySteps =
           List<int>.generate(7, (index) => prefs.getInt('day_$index') ?? 0);
     });
-  }
-
-  Future<void> _updateWeeklySteps() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int today = DateTime.now().weekday % 7;
-    _weeklySteps[today] = _stepsToday;
-    await prefs.setInt('day_$today', _stepsToday);
   }
 
   void _toggleIcons() {
@@ -131,7 +93,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_circle_left_outlined),
-          color: Color.fromARGB(255, 141, 237, 164),
+          color: const Color.fromARGB(255, 141, 237, 164),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/home');
           },
@@ -196,10 +158,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
-                      '$_stepsToday steps',
-                      style: const TextStyle(
+                      '0 steps', // Replace with actual steps from Google Fit API
+                      style: TextStyle(
                         color: Color.fromARGB(255, 141, 237, 164),
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -317,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                             vertical: screenHeight * 0.02,
                             horizontal: screenWidth * 0.1,
                           ),
-                                                    decoration: BoxDecoration(
+                          decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 141, 237, 164),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -338,7 +300,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            bottom: screenHeight * 0.73,
+            bottom: screenHeight * 0.68,
             right: screenWidth * 0.035,
             child: Column(
               children: [
@@ -395,4 +357,3 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
-

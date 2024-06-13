@@ -6,16 +6,17 @@ import 'settings_model.dart';
 import 'google_fit_service.dart';
 import 'pages/home.dart'; 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'secrets.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: 'AIzaSyBq7IAjP6i4P-_eR72p3q6bFbzQ3_4hPxU',
-      appId: '1:174525905693:android:3176b46cad9c909258bff4',
-      messagingSenderId: '174525905693',
-      projectId: 'green-fit-42406',
-      authDomain: 'green-fit-42406.firebaseapp.com',
+      apiKey: Config.apiKey,
+      appId: Config.appId,
+      messagingSenderId: Config.messagingSenderId,
+      projectId: Config.projectId,
+      authDomain: Config.authDomain,
     ),
   );
 
