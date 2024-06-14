@@ -28,10 +28,10 @@ android {
 
     defaultConfig {
         applicationId "com.greenfit06"
-        minSdkVersion 23 
+        minSdkVersion 28 
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode 2
+        versionName flutter.versionName
     }
 
     signingConfigs {
@@ -51,6 +51,8 @@ android {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.1.0')
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-fitness:21.0.0'
 }
 
 flutter {

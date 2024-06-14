@@ -5,6 +5,7 @@ import 'rewards.dart';
 import 'settings.dart';
 import 'profile.dart';
 import 'points.dart';
+import 'step_count_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,12 +18,16 @@ class _HomePageState extends State<HomePage> {
   bool _showIcons = false;
   int _points = 0;
   List<int> _weeklySteps = List.filled(7, 0);
+  String _stepsToday = '0 steps'; 
+
+  StepCountService _stepCountService = StepCountService(); 
 
   @override
   void initState() {
     super.initState();
     _loadPoints();
     _loadWeeklySteps();
+    _loadStepsToday(); 
   }
 
   Future<void> _loadPoints() async {
@@ -37,6 +42,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _weeklySteps =
           List<int>.generate(7, (index) => prefs.getInt('day_$index') ?? 0);
+    });
+  }
+
+  Future<void> _loadStepsToday() async {
+    int stepsToday = await _stepCountService.fetchStepsToday(); 
+    setState(() {
     });
   }
 
@@ -81,6 +92,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Green Fit',
           style: TextStyle(
@@ -88,16 +100,6 @@ class _HomePageState extends State<HomePage> {
             fontSize: 42,
             fontWeight: FontWeight.bold,
           ),
-        ),
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_circle_left_outlined),
-          color: const Color.fromARGB(255, 141, 237, 164),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home');
-          },
-          iconSize: 40,
         ),
         actions: [
           GestureDetector(
@@ -158,10 +160,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      '0 steps', // Replace with actual steps from Google Fit API
-                      style: TextStyle(
+                      _stepsToday,
+                      style: const TextStyle(
                         color: Color.fromARGB(255, 141, 237, 164),
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -316,11 +318,11 @@ class _HomePageState extends State<HomePage> {
                   onTap: _onSettingsTap,
                   child: _buildAnimatedSmallIcon(Icons.settings, 0),
                 ),
-              ],
-            ),
+                         ],
           ),
+        ),
         ],
-      ),
+      )
     );
   }
 
@@ -357,3 +359,4 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+

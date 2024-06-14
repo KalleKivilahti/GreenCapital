@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 class RewardsPage extends StatefulWidget {
   const RewardsPage({super.key});
@@ -10,11 +11,20 @@ class RewardsPage extends StatefulWidget {
 
 class _RewardsPageState extends State<RewardsPage> {
   late int _totalPoints = 0;
+  late Timer _timer;
+  late int _previousStepCount = 0;
 
   @override
   void initState() {
     super.initState();
     _loadTotalPoints();
+    _startStepCountTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   Future<void> _loadTotalPoints() async {
@@ -41,6 +51,29 @@ class _RewardsPageState extends State<RewardsPage> {
       _totalPoints += 100;
     });
     _saveTotalPoints(_totalPoints);
+  }
+
+  void _startStepCountTimer() {
+    _timer = Timer.periodic(Duration(minutes: 1), (Timer timer) {
+      _updatePointsBasedOnSteps();
+    });
+  }
+
+  Future<void> _updatePointsBasedOnSteps() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int currentStepCount = prefs.getInt('currentStepCount') ?? 0;
+
+    int newSteps = currentStepCount - _previousStepCount;
+
+    if (newSteps > 0) {
+      setState(() {
+        _totalPoints += newSteps;
+      });
+
+      _saveTotalPoints(_totalPoints);
+
+      _previousStepCount = currentStepCount;
+    }
   }
 
   Widget _buildRewardItem(
@@ -80,7 +113,7 @@ class _RewardsPageState extends State<RewardsPage> {
             Text(
               title,
               style: const TextStyle(
-                color: Color.fromARGB(255, 141, 237, 164),
+                color: Color.fromARGB(255, 31, 30, 35),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -89,7 +122,7 @@ class _RewardsPageState extends State<RewardsPage> {
             Text(
               description,
               style: const TextStyle(
-                color: Color.fromARGB(255, 141, 237, 164),
+                color: Color.fromARGB(255, 31, 30, 35),
                 fontSize: 16,
               ),
             ),
@@ -97,7 +130,7 @@ class _RewardsPageState extends State<RewardsPage> {
             Text(
               'Cost: $points points',
               style: const TextStyle(
-                color: Color.fromARGB(255, 141, 237, 164),
+                color: Color.fromARGB(255, 31, 30, 35),
                 fontSize: 16,
               ),
             ),
@@ -138,13 +171,6 @@ class _RewardsPageState extends State<RewardsPage> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              IconButton(
-                onPressed: _debugIncreasePoints,
-                icon: const Icon(Icons.add),
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
               ),
             ],
           ),

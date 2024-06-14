@@ -320,7 +320,7 @@ INJECTED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\
 		INJECTED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml
 		ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml
-activity#com.greenfit.MainActivity
+activity#com.greenfit06.MainActivity
 ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:12:9-30:20
 	android:launchMode
 		ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:15:13-43
@@ -354,7 +354,7 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:28:17-77
 	android:name
 		ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:28:27-74
-service#com.greenfit.StepCounterService
+service#com.greenfit06.StepCounterService
 ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:32:9-96
 	android:foregroundServiceType
 		ADDED from C:\Users\Kalle\Pythonshit\MobileApp\Stepv2\stepv2\android\app\src\main\AndroidManifest.xml:32:53-93
@@ -720,7 +720,7 @@ ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
-permission#com.greenfit.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.greenfit06.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
@@ -730,7 +730,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
-uses-permission#com.greenfit.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.greenfit06.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Kalle\.gradle\caches\transforms-3\cd029caa73742c9274e432966ee47c8f\transformed\core-1.9.0\AndroidManifest.xml:26:22-94

@@ -1,31 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'settings_model.dart';
-import 'google_fit_service.dart';
-import 'pages/home.dart'; 
-import 'package:google_sign_in/google_sign_in.dart';
-import 'secrets.dart';
+import 'package:stepv2/settings_model.dart';
+import 'pages/home.dart'; // Import your existing HomePage class here
+import 'pages/settings.dart'; // Import your SettingsPage class
 
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: Config.apiKey,
-      appId: Config.appId,
-      messagingSenderId: Config.messagingSenderId,
-      projectId: Config.projectId,
-      authDomain: Config.authDomain,
-    ),
-  );
-
+void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SettingsModel()),
-        Provider(create: (_) => GoogleFitService()), 
-      ],
+    ChangeNotifierProvider(
+      create: (context) => SettingsModel(), // Initialize your SettingsModel
       child: const MyApp(),
     ),
   );
@@ -39,134 +21,28 @@ class MyApp extends StatelessWidget {
     return Consumer<SettingsModel>(
       builder: (context, settings, child) {
         return MaterialApp(
-          title: 'Green Fit Login',
+          title: 'Green Fit',
           debugShowCheckedModeBanner: false,
-          theme: settings.isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          home: const MyHomePage(),
+          theme: ThemeData(
+            primaryColor: const Color.fromARGB(255, 141, 237, 164),
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                color: Color.fromARGB(255, 141, 237, 164),
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          darkTheme: ThemeData.dark(), // Ensure dark theme is set globally
+          themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          home: const HomePage(), // Set your HomePage as the home screen
           routes: {
-            '/home': (context) => const MyHomePage(),
             '/homePage': (context) => const HomePage(),
+            '/settings': (context) => const SettingsPage(), // Add settings route if needed
+            // Define other routes if needed
           },
         );
       },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkCurrentUser();
-  }
-
-  Future<void> _checkCurrentUser() async {
-    User? user = _auth.currentUser;
-    setState(() {
-      _user = user;
-    });
-  }
-
-  Future<void> _signInWithGoogle() async {
-    try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-        final UserCredential userCredential = await _auth.signInWithCredential(credential);
-        setState(() {
-          _user = userCredential.user;
-        });
-        if (_user != null) {
-          await _checkAndPromptConsent(googleSignIn);
-          Navigator.of(context).pushReplacementNamed('/homePage');
-        }
-      }
-    } catch (e) {
-      print('Error signing in with Google: $e');
-    }
-  }
-
-  Future<void> _signOut() async {
-    try {
-      await _auth.signOut();
-      setState(() {
-        _user = null;
-      });
-    } catch (e) {
-      print('Error signing out: $e');
-    }
-  }
-
-  Future<void> _signInLater() async {
-    Navigator.of(context).pushReplacementNamed('/homePage');
-  }
-
-  Future<void> _checkAndPromptConsent(GoogleSignIn googleSignIn) async {
-    final bool hasPermissions = await googleSignIn.requestScopes(['https://www.googleapis.com/auth/fitness.activity.read']);
-    if (hasPermissions) {
-      print('User has granted consent for Google Fit data access.');
-      // Proceed with fetching fitness data
-      // For simplicity, we'll just print a message here
-      print('Fetching fitness data...');
-    } else {
-      print('User has not granted consent for Google Fit data access.');
-      // Prompt the user to grant consent
-      // You can use packages like url_launcher to open the consent page in a browser
-      // For simplicity, we'll just print a message here
-      print('Prompting user to grant consent...');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Green Fit Login'),
-      ),
-      body: Center(
-        child: _user == null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: _signInWithGoogle,
-                    child: const Text('Sign In with Google'),
-                  ),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: _signInLater,
-                    child: const Text('Sign In Later'),
-                  ),
-                ],
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text('Signed in as:'),
-                  Text(_user!.displayName ?? 'Unknown'),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: _signOut,
-                    child: const Text('Sign Out'),
-                  ),
-                ],
-              ),
-      ),
     );
   }
 }
