@@ -30,7 +30,7 @@ android {
         applicationId "com.greenfit06"
         minSdkVersion 28 
         targetSdk = flutter.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName flutter.versionName
     }
 

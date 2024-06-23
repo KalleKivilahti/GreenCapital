@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               const ListTile(
                 title: Text('App Version'),
-                subtitle: Text('1.0.0'),
+                subtitle: Text('3.0.0'),
               ),
               ListTile(
                 title: const Text('Send Feedback'),

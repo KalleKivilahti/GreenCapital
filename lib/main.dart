@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stepv2/settings_model.dart';
-import 'pages/home.dart'; // Import your existing HomePage class here
-import 'pages/settings.dart'; // Import your SettingsPage class
+import 'pages/home.dart';
+import 'pages/settings.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); 
   runApp(
     ChangeNotifierProvider(
-      create: (context) => SettingsModel(), // Initialize your SettingsModel
+      create: (context) => SettingsModel(),
       child: const MyApp(),
     ),
   );
@@ -33,13 +34,12 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          darkTheme: ThemeData.dark(), // Ensure dark theme is set globally
+          darkTheme: ThemeData.dark(),
           themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: const HomePage(), // Set your HomePage as the home screen
+          home: const HomePage(),
           routes: {
             '/homePage': (context) => const HomePage(),
-            '/settings': (context) => const SettingsPage(), // Add settings route if needed
-            // Define other routes if needed
+            '/settings': (context) => const SettingsPage(),
           },
         );
       },
